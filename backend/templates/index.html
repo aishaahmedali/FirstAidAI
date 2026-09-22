@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FirstAidAI</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7f9;
+            color: #1f2933;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: #b91c1c;
+            color: white;
+            padding: 22px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 6px;
+        }
+
+        .header p {
+            font-size: 15px;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h2 {
+            margin-bottom: 10px;
+        }
+
+        .description {
+            color: #667085;
+            margin-bottom: 25px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 130px;
+            padding: 15px;
+            border: 1px solid #d0d5dd;
+            border-radius: 10px;
+            resize: vertical;
+            font-size: 16px;
+            font-family: inherit;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: #b91c1c;
+        }
+
+        button {
+            margin-top: 15px;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #b91c1c;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #991b1b;
+        }
+
+        button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 25px;
+            color: #667085;
+        }
+
+        .result {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .result-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .category {
+            font-size: 20px;
+            font-weight: bold;
+            color: #b91c1c;
+        }
+
+        .confidence {
+            margin-top: 8px;
+            color: #475467;
+        }
+
+        .answer {
+            margin-top: 15px;
+            line-height: 1.7;
+            white-space: pre-wrap;
+        }
+
+        /* ChromaDB section */
+        .chromadb-section {
+            margin-top: 30px;
+        }
+
+        .chromadb-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1f2933;
+            margin-bottom: 8px;
+        }
+
+        .chromadb-description {
+            color: #667085;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .chromadb-box {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 10px;
+            padding: 20px;
+            max-height: 450px;
+            overflow-y: auto;
+        }
+
+        .chromadb-info {
+            font-size: 14px;
+            color: #475467;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .retrieved-text {
+            white-space: pre-wrap;
+            line-height: 1.6;
+            color: #1f2933;
+            font-size: 14px;
+        }
+
+        .error {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background: #fee2e2;
+            color: #991b1b;
+            border-radius: 10px;
+        }
+
+        .disclaimer {
+            margin-top: 30px;
+            padding: 15px;
+            background: #fff7ed;
+            border-left: 4px solid #f97316;
+            color: #7c2d12;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px auto;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>FirstAidAI</h1>
+        <p>AI-powered first-aid assistance</p>
+    </div>
+
+    <div class="container">
+
+        <div class="card">
+
+            <h2>Ask a First-Aid Question</h2>
+
+            <p class="description">
+                Enter a first-aid question and FirstAidAI will analyze it and provide
+                relevant first-aid information.
+            </p>
+
+            <textarea
+                id="question"
+                placeholder="Example: What should I do for severe bleeding?"
+            ></textarea>
+
+            <button id="askButton" onclick="askQuestion()">
+                Ask FirstAidAI
+            </button>
+
+            <div class="loading" id="loading">
+                Processing your question...
+            </div>
+
+            <div class="error" id="error"></div>
+
+            <div class="result" id="result">
+
+                <h2>Result</h2>
+
+                <div class="result-box">
+
+                    <div class="category" id="category"></div>
+
+                    <div class="confidence" id="confidence"></div>
+
+                    <!-- ChromaDB Retrieved Information -->
+                    <div class="chromadb-section">
+
+                        <div class="chromadb-title">
+                            Retrieved Information from ChromaDB
+                        </div>
+
+                        <div class="chromadb-description">
+                            The following information was retrieved from the
+                            <strong>first_aid</strong> ChromaDB collection
+                            and provided to the answer-generation model.
+                        </div>
+
+                        <div class="chromadb-box">
+
+                            <div class="chromadb-info">
+                                Source: St. John Ambulance Canada First Aid Reference Guide
+                            </div>
+
+                            <div
+                                class="retrieved-text"
+                                id="retrievedContext"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Final Answer -->
+                    <div class="answer" id="answer"></div>
+
+                </div>
+
+            </div>
+
+            <div class="disclaimer">
+                <strong>Important:</strong> This system provides educational
+                first-aid information and does not replace professional medical
+                advice. In a serious or life-threatening emergency, contact
+                emergency medical services immediately.
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        async function askQuestion() {
+
+            const questionInput = document.getElementById("question");
+            const button = document.getElementById("askButton");
+            const loading = document.getElementById("loading");
+            const result = document.getElementById("result");
+            const error = document.getElementById("error");
+
+            const question = questionInput.value.trim();
+
+            result.style.display = "none";
+            error.style.display = "none";
+
+            if (!question) {
+                error.textContent = "Please enter a question.";
+                error.style.display = "block";
+                return;
+            }
+
+            button.disabled = true;
+            loading.style.display = "block";
+
+            try {
+
+                const response = await fetch("/api/ask", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        question: question
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || "Something went wrong.");
+                }
+
+                document.getElementById("category").textContent =
+                    "Category: " + data.category;
+
+                document.getElementById("confidence").textContent =
+                    "Confidence: " +
+                    (data.confidence * 100).toFixed(2) +
+                    "%";
+
+                /* Show the actual ChromaDB retrieved context */
+                document.getElementById("retrievedContext").textContent =
+                    data.retrieved_context || "No retrieved information.";
+
+                /* Show final Gemini answer */
+                document.getElementById("answer").innerHTML =
+                    "<strong>Final First-Aid Answer:</strong><br><br>" +
+                    data.answer.replace(/\n/g, "<br>");
+
+                result.style.display = "block";
+
+            } catch (err) {
+
+                error.textContent = err.message;
+                error.style.display = "block";
+
+            } finally {
+
+                button.disabled = false;
+                loading.style.display = "none";
+
+            }
+        }
+
+        document.getElementById("question").addEventListener(
+            "keydown",
+            function(event) {
+
+                if (event.key === "Enter" && event.shiftKey === false) {
+                    event.preventDefault();
+                    askQuestion();
+                }
+
+            }
+        );
+    </script>
+
+</body>
+</html>

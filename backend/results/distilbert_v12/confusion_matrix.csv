@@ -1,0 +1,12 @@
+,Bites & Stings,Bleeding,Burns,CPR,Choking,Fractures & Injuries,Neurological Emergencies,Other,Poisoning,Shock & Fainting,Temperature Emergencies
+Bites & Stings,68,1,0,2,0,1,0,0,0,1,0
+Bleeding,0,48,0,0,0,1,0,2,0,0,2
+Burns,0,0,34,0,0,0,0,0,0,0,0
+CPR,0,0,0,58,2,0,0,1,1,0,0
+Choking,0,1,0,1,23,0,0,0,0,0,0
+Fractures & Injuries,0,9,0,1,0,120,0,8,0,2,0
+Neurological Emergencies,1,0,0,0,0,0,39,0,0,0,0
+Other,0,6,0,0,3,1,0,97,1,2,3
+Poisoning,0,0,0,1,0,1,0,0,25,0,0
+Shock & Fainting,0,4,1,1,0,0,0,4,0,40,1
+Temperature Emergencies,0,0,0,0,0,0,1,2,0,0,27

@@ -1,0 +1,17 @@
+                          precision    recall  f1-score   support
+
+          Bites & Stings     0.9583    0.9452    0.9517        73
+                Bleeding     0.8148    0.8302    0.8224        53
+                   Burns     0.9412    0.9412    0.9412        34
+                     CPR     0.9206    0.9355    0.9280        62
+                 Choking     0.8800    0.8800    0.8800        25
+    Fractures & Injuries     0.9085    0.9214    0.9149       140
+Neurological Emergencies     0.9756    1.0000    0.9877        40
+                   Other     0.9052    0.9292    0.9170       113
+               Poisoning     0.9600    0.8889    0.9231        27
+        Shock & Fainting     0.9592    0.9216    0.9400        51
+ Temperature Emergencies     0.9259    0.8333    0.8772        30
+
+                accuracy                         0.9182       648
+               macro avg     0.9227    0.9115    0.9167       648
+            weighted avg     0.9187    0.9182    0.9182       648

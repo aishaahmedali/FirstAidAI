@@ -1,0 +1,60 @@
+# Environment and secrets
+.env
+venv/
+.venv/
+
+# macOS
+.DS_Store
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Backup files
+*.save
+*~
+
+# Large trained model files
+backend/saved_models/*_model/
+backend/results/*/checkpoint-*/
+backend/results/*/runs/
+
+# Duplicate/large model directories
+models/
+saved_models/
+
+# Large generated training outputs
+backend/results/deberta_v1/
+backend/results/deberta_v2/
+backend/results/roberta/
+backend/results/distilbert/
+
+# ChromaDB generated database
+vector_db/
+backend/vector_db/
+
+# Keep useful evaluation results
+!backend/results/*.png
+!backend/results/*.txt
+!backend/results/*_comparison.png
+
+# Large root-level training results
+results/distilbert/
+results/roberta/
+results/distilbert_v3/
+results/logs/
+results/logs_roberta/
+
+# DeBERTa-v3 large checkpoints
+backend/results/deberta_v3/checkpoint-3864/
+backend/results/deberta_v3/checkpoint-5152/
