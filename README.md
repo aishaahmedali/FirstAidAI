@@ -1,37 +1,44 @@
 # FirstAidAI
+### AI-Powered First Aid Assistance Using Retrieval-Augmented Generation (RAG)
 
-An AI-based first-aid assistance system that combines text classification, Retrieval-Augmented Generation (RAG), ChromaDB, and Gemini to provide category-aware first-aid guidance based on a trusted first-aid reference source.
+FirstAidAI is an AI-powered first-aid assistance platform developed as a Software Engineering academic project at Near East University.
 
-## Overview
+The system combines text classification, semantic search, a vector database, and a generative language model to provide relevant first-aid information based on a trusted reference source.
 
-FirstAidAI is designed to help users obtain relevant first-aid information by entering questions in natural language.
+## 1. Project Overview
 
-The system first classifies the user's question into one of 11 first-aid categories using a trained DeBERTa-v3 model. It then retrieves relevant information from a ChromaDB vector database containing content derived from the St. John Ambulance Canada First Aid Reference Guide. Finally, Gemini generates a clear response using the retrieved information.
+Users submit first-aid questions through a web interface. The system processes each question through the following pipeline:
 
-The system is implemented as a Flask web application.
+1. **Question Classification:** A fine-tuned DeBERTa-v3 model classifies the question into one of 11 first-aid categories.
+2. **Information Retrieval:** ChromaDB retrieves relevant passages from the first-aid reference document using semantic similarity.
+3. **Response Generation:** Google's Gemini model generates a response using the retrieved information.
+4. **Web Interface:** A Flask application displays the generated response to the user.
 
-## System Architecture
+## 2. System Architecture
 
 ```text
-User Question
-      |
-      v
-DeBERTa-v3 Classifier
-      |
-      v
-First-Aid Category + Confidence
-      |
-      v
-ChromaDB Vector Database
-      |
-      v
-Relevant First-Aid Information
-      |
-      v
-Gemini
-      |
-      v
-Final First-Aid Response
-      |
-      v
-Flask Web Interface
+             User Question
+                   |
+                   v
+          DeBERTa-v3 Classifier
+                   |
+                   v
+          Predicted First-Aid Category
+                   |
+                   v
+          Semantic Information Retrieval
+                   |
+                   v
+             ChromaDB
+                   |
+                   v
+          Retrieved Reference Passages
+                   |
+                   v
+                 Gemini
+                   |
+                   v
+          Generated First-Aid Response
+                   |
+                   v
+            Flask Web Interface

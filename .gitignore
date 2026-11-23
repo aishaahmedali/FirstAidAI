@@ -58,3 +58,76 @@ results/logs_roberta/
 # DeBERTa-v3 large checkpoints
 backend/results/deberta_v3/checkpoint-3864/
 backend/results/deberta_v3/checkpoint-5152/
+# Old model training outputs
+backend/results/deberta_v1/
+backend/results/deberta_v2/
+backend/results/distilbert/
+backend/results/roberta/
+
+# Local training outputs
+results/
+
+# Local model files
+backend/saved_models/
+backend/vector_db/
+
+# Old RAG experiments
+backend/old_rag/
+
+# Temporary development files
+backend/*.save
+backend/nano*
+backend/C#
+backend/chromadb.html
+backend/history.txt
+
+# Old dataset versions - keep V12
+dataset/clean_firstaid_dataset.csv
+dataset/clean_firstaid_dataset_v2.csv
+dataset/clean_firstaid_dataset_v3.csv
+dataset/clean_firstaid_dataset_v4.csv
+dataset/clean_firstaid_dataset_v5.csv
+dataset/clean_firstaid_dataset_v6.csv
+dataset/clean_firstaid_dataset_v7.csv
+dataset/clean_firstaid_dataset_v8.csv
+dataset/clean_firstaid_dataset_v9.csv
+dataset/clean_firstaid_dataset_v10.csv
+dataset/clean_firstaid_dataset_v11.csv
+dataset/old_medquad/
+dataset/final_split/
+dataset/final_split_v10/
+dataset/dataset_backup_before_relabel.csv
+dataset/labeled_firstaid_backup_before_relabel.csv
+# Old development and dataset experiments
+backend/create_v7.py
+backend/create_v8_dataset.py
+backend/create_v9_dataset.py
+backend/create_v10_dataset.py
+backend/create_v11_dataset.py
+backend/clean_labels.py
+backend/find_bleeding_suspicious.py
+backend/find_wrong_labels.py
+backend/fix_injury_labels.py
+backend/fix_labels.py
+backend/fix_labels_v4.py
+backend/fix_obvious_labels.py
+backend/fix_v6_labels.py
+backend/firstaid_system_backup.py
+backend/rebuild_first_aid_rag_v2.py
+
+# Temporary datasets
+dataset/bleeding_suspicious.csv
+dataset/labeled_firstaid_dataset.csv
+dataset/merged_data.csv
+dataset/training/merged_data.csv
+
+# Duplicate and temporary documents
+documents/First aid reference guide_V4.1_Public-2 copy.pdf
+documents/first_aid_text.txt
+
+# Duplicate root-level test
+/test_chroma.py
+
+# Duplicate local project and experimental RAG database
+FirstAidAI/
+vector_db_v2/

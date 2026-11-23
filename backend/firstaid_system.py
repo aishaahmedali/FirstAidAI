@@ -1,6 +1,7 @@
 import os
 import pickle
 from pathlib import Path
+from dotenv import load_dotenv
 
 import chromadb
 import torch
@@ -10,6 +11,8 @@ from transformers import DebertaV2Tokenizer, DebertaV2ForSequenceClassification
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(BASE_DIR / ".env", override=True)
 
 MODEL_DIR = BASE_DIR / "backend" / "saved_models" / "deberta_v3_model"
 VECTOR_DB = BASE_DIR / "vector_db"
@@ -101,17 +104,16 @@ def classify_question(question):
 
 def retrieve_context(question, category):
 
-    search_query = f"{category} first aid treatment: {question}"
-
-    question_embedding = embedding_model.encode(
-        search_query
+    search_query = (
+        f"First aid category: {category}. "
+        f"Question: {question}"
     )
 
+    question_embedding = embedding_model.encode(search_query)
+
     results = collection.query(
-        query_embeddings=[
-            question_embedding.tolist()
-        ],
-        n_results=3
+        query_embeddings=[question_embedding.tolist()],
+        n_results=5
     )
 
     documents = results.get("documents", [[]])[0]
@@ -120,7 +122,6 @@ def retrieve_context(question, category):
         return None
 
     return "\n\n".join(documents)
-
 
 def generate_answer(question, category, context):
 
@@ -140,12 +141,16 @@ User question:
 {question}
 
 Instructions:
-- Give clear, practical first-aid guidance.
-- Base the answer on the retrieved information.
-- Do not invent medical instructions that are not supported by the retrieved information.
-- Use numbered steps when appropriate.
-- If the situation appears life-threatening, clearly advise the user to seek emergency medical help.
-- Do not claim to diagnose the user.
+- Answer the user's exact first-aid question directly.
+- Prioritize immediate first-aid actions over background explanations.
+- Use the most relevant retrieved passages, not every retrieved passage.
+- Give clear, practical instructions in the correct order.
+- Include important warnings and actions to avoid when supported by the retrieved information.
+- Do not include unrelated medical information.
+- Do not invent medical instructions or unsupported details.
+- If the retrieved information is insufficient, clearly say so.
+- If the situation is life-threatening, advise contacting emergency medical services immediately.
+- Do not claim to diagnose the casualty.
 
 Answer:
 """
